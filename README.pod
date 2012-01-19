@@ -1,0 +1,93 @@
+=head1 NAME
+
+broom - a disk cleaning utility for developers
+
+=head1 SYNOPSIS
+
+I<broom> [option...] [directory]
+
+=head1 DESCRIPTION
+
+burp is a simple utility that helps developers regaining disk space. It
+recursively looks for projects inside a directory and cleans them by
+removing build artifacts, optimizing version control system files, etc.
+
+The tools supported are:
+
+=over
+
+=item B<Make>
+broom looks for I<Makefile>s and invokes I<make clean>.
+
+=item B<Python>
+broom looks for I<setup.py> files and invokes I<python setup.py clean>.
+
+=item B<Ant>
+broom looks for I<build.xml> files and invokes I<ant clean>.
+
+=item B<Maven>
+broom looks for I<pom.xml> files and invokes I<mvn clean>.
+
+=item B<Git>
+broom looks for git repositories and invokes I<git gc>.
+
+=back
+
+=head1 OPTIONS
+
+=over
+
+=item B<-h, --help>
+
+Show usage information and exit.
+
+=item B<--version>
+
+Show version information and exit.
+
+=item B<-v, --verbose>
+
+Be more verbose. Pass this option several times to see debug info.
+
+=item B<-q, --quiet>
+
+Be less verbose. Pass this option several times to remove all output.
+
+=item B<-n, --dry-run>
+
+Only show commands that would be executed instead of actually performing
+them.
+
+=item B<-t> I<TOOLS>B<, --tools=>I<TOOLS>
+
+Comma-separated list of tools to run the cleanup for. The available tools
+are: I<make>, I<python>, I<ant>, I<mvn> and I<git>.
+
+=back
+
+=head1 EXAMPLES
+
+To perform cleanup in the current working directory:
+
+          broom
+
+To perform cleanup in your projects folder:
+
+          broom ~/projects
+
+To perform cleanup in your projects folder, with all logging on:
+
+          broom -vvv ~/projects
+
+To show what commands would be performed, without reunning them:
+
+          broom -n ~/projects
+
+
+To perform cleanup only for git and make projects:
+
+          broom -t git,make ~/projects
+
+=head1 AUTHOR
+
+Julien Nicoulaud E<lt>julien.nicoulaud@gmail.comE<gt>

@@ -57,9 +57,9 @@ git_clean_command()  { echo "--git-dir $1 gc"; }
 # Define usage function.
 usage() {
 cat << EOF
-usage: $0 [ option... ] [ directory ]
+usage: $0 [option...] [directory]
 
-TODO
+A disk cleaning utility for developers.
 
 OPTIONS:
    -h,--help      Show this message and exit.
