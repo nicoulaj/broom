@@ -8,7 +8,7 @@ I<broom> [option...] [directory]
 
 =head1 DESCRIPTION
 
-burp is a simple utility that helps developers regaining disk space. It
+broom is a simple utility that helps developers regaining disk space. It
 recursively looks for projects inside a directory and cleans them by
 removing build artifacts, optimizing version control system files, etc.
 
@@ -17,18 +17,23 @@ The tools supported are:
 =over
 
 =item B<Make>
+
 broom looks for I<Makefile>s and invokes I<make clean>.
 
 =item B<Python>
+
 broom looks for I<setup.py> files and invokes I<python setup.py clean>.
 
 =item B<Ant>
+
 broom looks for I<build.xml> files and invokes I<ant clean>.
 
 =item B<Maven>
+
 broom looks for I<pom.xml> files and invokes I<mvn clean>.
 
 =item B<Git>
+
 broom looks for git repositories and invokes I<git gc>.
 
 =back
@@ -69,24 +74,24 @@ are: I<make>, I<python>, I<ant>, I<mvn> and I<git>.
 
 To perform cleanup in the current working directory:
 
-          broom
+ broom
 
 To perform cleanup in your projects folder:
 
-          broom ~/projects
+ broom ~/projects
 
 To perform cleanup in your projects folder, with all logging on:
 
-          broom -vvv ~/projects
+ broom -vvv ~/projects
 
 To show what commands would be performed, without reunning them:
 
-          broom -n ~/projects
+ broom -n ~/projects
 
 
 To perform cleanup only for git and make projects:
 
-          broom -t git,make ~/projects
+ broom -t git,make ~/projects
 
 =head1 AUTHOR
 
