@@ -151,6 +151,7 @@ debug " * directory: $DIRECTORY"
 debug " * tools: ${TOOLS[@]}"
 
 # Perform cleaning.
+trap "exit" INT TERM EXIT
 for tool in ${TOOLS[@]}; do
   if ! type $tool &> /dev/null; then
     warn "Warning: $tool does not seem to be available in PATH, skipping $tool projects cleaning."
