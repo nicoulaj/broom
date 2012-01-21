@@ -37,7 +37,7 @@ _broom()
         prev=${COMP_WORDS[COMP_CWORD-1]}
         case "$prev" in
           -t|--tools)
-            COMPREPLY=( $(compgen -W "make python ant maven git" $cur) )
+            COMPREPLY=( $(compgen -W "make python ant maven gradle git" $cur) )
             ;;
           *)
             COMPREPLY=( $(compgen -W "-v --verbose -q --quiet -n --dry-run -t --tools" -- $cur ) )

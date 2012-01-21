@@ -27,7 +27,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make python ant mvn git)
+AVAILABLE_TOOLS=(make python ant mvn gradle git)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -44,6 +44,10 @@ ant_clean_command()  { echo "-f $1 clean"; }
 # Maven
 mvn_project_marker() { echo "pom.xml"; }
 mvn_clean_command()  { echo "-f $1 clean"; }
+
+# Gradle
+gradle_project_marker() { echo "build.gradle"; }
+gradle_clean_command()  { echo "-b $1 clean"; }
 
 # Git gc
 git_project_marker() { echo ".git/"; }
