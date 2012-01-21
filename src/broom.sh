@@ -154,6 +154,8 @@ debug " * tools: ${TOOLS[@]}"
 for tool in ${TOOLS[@]}; do
   if ! type $tool &> /dev/null; then
     warn "Warning: $tool does not seem to be available in PATH, skipping $tool projects cleaning."
+  elif ! type ${tool}_project_marker &> /dev/null || ! type ${tool}_clean_command &> /dev/null; then
+    warn "Warning: $tool is not supported, skipping."
   else
     info "Looking for $tool projects..."
     for marker in $DIRECTORY/**/`${tool}_project_marker`; do
