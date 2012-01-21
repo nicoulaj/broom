@@ -159,12 +159,14 @@ for tool in ${TOOLS[@]}; do
   else
     info "Looking for $tool projects..."
     for marker in $DIRECTORY/**/`${tool}_project_marker`; do
-      clean_command="$tool `${tool}_clean_command $marker`"
-      if $DRY_RUN; then
-        info $clean_command
-      else
-        info "Cleaning $tool project `dirname $marker`... "
-        is_log_level 2 && eval $clean_command || eval $clean_command &> /dev/null
+      if [[ -e $marker ]]; then
+        clean_command="$tool `${tool}_clean_command $marker`"
+        if $DRY_RUN; then
+          info $clean_command
+        else
+          info "Cleaning $tool project `dirname $marker`... "
+          is_log_level 2 && eval $clean_command || eval $clean_command &> /dev/null
+        fi
       fi
     done
   fi
