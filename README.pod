@@ -12,51 +12,9 @@ broom is a simple utility that helps developers regaining disk space. It
 recursively looks for projects inside a directory and cleans them by
 removing build artifacts, optimizing version control system files, etc.
 
-The tools supported are:
-
-=over
-
-=item B<Make>
-
-broom looks for I<Makefile>s and invokes I<make clean>.
-
-=item B<Python>
-
-broom looks for I<setup.py> files and invokes I<python setup.py clean>.
-
-=item B<Ant>
-
-broom looks for I<build.xml> files and invokes I<ant clean>.
-
-=item B<Maven>
-
-broom looks for I<pom.xml> files and invokes I<mvn clean>.
-
-=item B<Git>
-
-broom looks for git repositories and invokes I<git gc>.
-
-=back
-
 =head1 OPTIONS
 
 =over
-
-=item B<-h, --help>
-
-Show usage information and exit.
-
-=item B<--version>
-
-Show version information and exit.
-
-=item B<-v, --verbose>
-
-Be more verbose. Pass this option several times to see debug info.
-
-=item B<-q, --quiet>
-
-Be less verbose. Pass this option several times to remove all output.
 
 =item B<-n, --dry-run>
 
@@ -66,7 +24,24 @@ them.
 =item B<-t> I<TOOLS>B<, --tools=>I<TOOLS>
 
 Comma-separated list of tools to run the cleanup for. The available tools
-are: I<make>, I<python>, I<ant>, I<mvn> and I<git>.
+are: I<make>, I<python>, I<ant>, I<mvn> and I<git>. By default, all tools
+are used.
+
+=item B<-v, --verbose>
+
+Be more verbose. Pass this option several times to see debug info.
+
+=item B<-q, --quiet>
+
+Be less verbose. Pass this option several times to remove all output.
+
+=item B<-h, --help>
+
+Show usage information and exit.
+
+=item B<--version>
+
+Show version information and exit.
 
 =back
 
@@ -92,6 +67,20 @@ To show what commands would be performed, without reunning them:
 To perform cleanup only for git and make projects:
 
  broom -t git,make ~/projects
+
+=head1 INSTALLING
+
+To download, build and install broom, follow the steps below:
+
+ wget --no-check-certificate https://github.com/downloads/nicoulaj/broom/broom-<VERSION>.tar.gz
+ tar xzf broom-<VERSION>.tar.gz
+ cd broom-<VERSION>
+ make
+ sudo make install
+
+=head1 ISSUES
+
+Please report issues at https://github.com/nicoulaj/broom/issues.
 
 =head1 AUTHOR
 
