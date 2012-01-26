@@ -21,10 +21,14 @@ clean:
 	${RM} -r out
 
 install: broom doc
-	install -Dm755 out/broom.sh ${DESTDIR}${PREFIX}/bin/broom
-	install -Dm644 out/broom.1 ${DESTDIR}${PREFIX}/share/man/man1/broom.1
-	install -Dm644 completion/completion.bash ${DESTDIR}/etc/bash_completion.d/broom
-	install -Dm644 completion/completion.zsh ${DESTDIR}/usr/share/zsh/site-functions/_broom
+	install -dm755 ${DESTDIR}${PREFIX}/bin
+	install -m755 out/broom.sh ${DESTDIR}${PREFIX}/bin/broom
+	install -dm755 ${DESTDIR}${PREFIX}/share/man/man1
+	install -m644 out/broom.1 ${DESTDIR}${PREFIX}/share/man/man1/broom.1
+	install -dm755 ${DESTDIR}/etc/bash_completion.d
+	install -m644 completion/completion.bash ${DESTDIR}/etc/bash_completion.d/broom
+	install -dm755 ${DESTDIR}/usr/share/zsh/site-functions
+	install -m644 completion/completion.zsh ${DESTDIR}/usr/share/zsh/site-functions/_broom
 
 uninstall:
 	${RM} ${DESTDIR}${PREFIX}/bin/broom
