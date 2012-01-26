@@ -1,5 +1,5 @@
-VERSION = $(shell git describe --tags)
-PREFIX = /usr
+VERSION ?= $(shell git describe --tags)
+PREFIX ?= /usr
 
 all: broom doc
 
@@ -21,10 +21,10 @@ clean:
 	${RM} -r out
 
 install: broom doc
-	install -Dm755 out/broom.sh ${DESTDIR}${PREFIX}/bin/broom
-	install -Dm644 out/broom.1 ${DESTDIR}${PREFIX}/share/man/man1/broom.1
-	install -Dm644 completion/completion.bash ${DESTDIR}/etc/bash_completion.d/broom
-	install -Dm644 completion/completion.zsh ${DESTDIR}/usr/share/zsh/site-functions/_broom
+	install -m755 out/broom.sh ${DESTDIR}${PREFIX}/bin/broom
+	install -m644 out/broom.1 ${DESTDIR}${PREFIX}/share/man/man1/broom.1
+	install -m644 completion/completion.bash ${DESTDIR}/etc/bash_completion.d/broom
+	install -m644 completion/completion.zsh ${DESTDIR}/usr/share/zsh/site-functions/_broom
 
 uninstall:
 	${RM} ${DESTDIR}${PREFIX}/bin/broom
