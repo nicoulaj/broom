@@ -27,11 +27,15 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make python ant mvn gradle git)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle git)
 
 # Make
 make_project_marker() { echo "Makefile"; }
 make_clean_command()  { echo "-f $1 clean"; }
+
+# Rake
+rake_project_marker() { echo "Rakefile"; }
+rake_clean_command()  { echo "-f $1 clean"; }
 
 # Python distutils
 python_project_marker() { echo "setup.py"; }
