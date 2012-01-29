@@ -104,6 +104,12 @@ is_log_level() { [[ $LOG_LEVEL -ge $1 ]]; }
   exit 1
 }
 
+# Check for getopt requirements.
+getopt -h 2>&1 | grep -qe '-l' || {
+  error "This script requires GNU implementation of getopt, exiting."
+  exit 1
+}
+
 # Set required bash options.
 shopt -s globstar
 
