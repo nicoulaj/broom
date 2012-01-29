@@ -31,32 +31,27 @@ AVAILABLE_TOOLS=(make rake python ant mvn gradle git)
 
 # Make
 make_project_marker() { echo "Makefile"; }
-make_clean_command()  { echo "clean"; }
 
 # Rake
 rake_project_marker() { echo "Rakefile"; }
-rake_clean_command()  { echo "clean"; }
 
 # Python distutils
 python_project_marker() { echo "setup.py"; }
-python_clean_command()  { echo "$1 clean"; }
+python_clean_args()  { echo "$1 clean"; }
 
 # Ant
 ant_project_marker() { echo "build.xml"; }
-ant_clean_command()  { echo "clean"; }
 
 # Maven
 mvn_project_marker() { echo "pom.xml"; }
-mvn_clean_command()  { echo "clean"; }
 mvn_keep_project()   { [[ -f $(dirname `dirname $1`)/pom.xml ]] && return 1 || return 0; }
 
 # Gradle
 gradle_project_marker() { echo "build.gradle"; }
-gradle_clean_command()  { echo "clean"; }
 
 # Git gc
 git_project_marker() { echo ".git/"; }
-git_clean_command()  { echo "gc"; }
+git_clean_args()  { echo "gc"; }
 
 
 # ----------------------------------------------------------------------
@@ -166,7 +161,7 @@ trap "exit" INT TERM EXIT
 for tool in ${TOOLS[@]}; do
   if ! type $tool &> /dev/null; then
     warn "Warning: $tool does not seem to be available in PATH, skipping $tool projects cleaning."
-  elif ! type ${tool}_project_marker &> /dev/null || ! type ${tool}_clean_command &> /dev/null; then
+  elif ! type ${tool}_project_marker &> /dev/null; then
     warn "Warning: $tool is not supported, skipping."
   else
     info "Looking for $tool projects..."
@@ -176,7 +171,8 @@ for tool in ${TOOLS[@]}; do
         if type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null; then
           debug "Skipping project ${project_dir}."
         else
-          clean_command="cd ${project_dir} && ${tool} `${tool}_clean_command $marker`"
+          clean_args="clean"; type ${tool}_clean_args &> /dev/null && clean_args="`${tool}_clean_args $marker`"
+          clean_command="cd ${project_dir} && ${tool} ${clean_args}"
           if $DRY_RUN; then
             info $clean_command
           else
