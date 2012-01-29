@@ -48,6 +48,7 @@ ant_clean_command()  { echo "-f $1 clean"; }
 # Maven
 mvn_project_marker() { echo "pom.xml"; }
 mvn_clean_command()  { echo "-f $1 clean"; }
+mvn_keep_project()   { [[ -f $(dirname `dirname $1`)/pom.xml ]] && return 1 || return 0; }
 
 # Gradle
 gradle_project_marker() { echo "build.gradle"; }
