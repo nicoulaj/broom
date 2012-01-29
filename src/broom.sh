@@ -31,11 +31,11 @@ AVAILABLE_TOOLS=(make rake python ant mvn gradle git)
 
 # Make
 make_project_marker() { echo "Makefile"; }
-make_clean_command()  { echo "-f $1 clean"; }
+make_clean_command()  { echo "clean"; }
 
 # Rake
 rake_project_marker() { echo "Rakefile"; }
-rake_clean_command()  { echo "-f $1 clean"; }
+rake_clean_command()  { echo "clean"; }
 
 # Python distutils
 python_project_marker() { echo "setup.py"; }
@@ -43,20 +43,20 @@ python_clean_command()  { echo "$1 clean"; }
 
 # Ant
 ant_project_marker() { echo "build.xml"; }
-ant_clean_command()  { echo "-f $1 clean"; }
+ant_clean_command()  { echo "clean"; }
 
 # Maven
 mvn_project_marker() { echo "pom.xml"; }
-mvn_clean_command()  { echo "-f $1 clean"; }
+mvn_clean_command()  { echo "clean"; }
 mvn_keep_project()   { [[ -f $(dirname `dirname $1`)/pom.xml ]] && return 1 || return 0; }
 
 # Gradle
 gradle_project_marker() { echo "build.gradle"; }
-gradle_clean_command()  { echo "-b $1 clean"; }
+gradle_clean_command()  { echo "clean"; }
 
 # Git gc
 git_project_marker() { echo ".git/"; }
-git_clean_command()  { echo "--git-dir $1 gc"; }
+git_clean_command()  { echo "gc"; }
 
 
 # ----------------------------------------------------------------------
@@ -172,10 +172,11 @@ for tool in ${TOOLS[@]}; do
     info "Looking for $tool projects..."
     for marker in $DIRECTORY/**/`${tool}_project_marker`; do
       if [[ -e $marker ]]; then
+        project_dir="`dirname $marker`"
         if type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null; then
-          debug "Skipping project `dirname $marker`."
+          debug "Skipping project ${project_dir}."
         else
-          clean_command="$tool `${tool}_clean_command $marker`"
+          clean_command="cd ${project_dir} && ${tool} `${tool}_clean_command $marker`"
           if $DRY_RUN; then
             info $clean_command
           else
