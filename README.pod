@@ -59,7 +59,7 @@ To perform cleanup in your projects folder, with all logging on:
 
  broom -vvv ~/projects
 
-To show what commands would be performed, without reunning them:
+To show what commands would be performed, without running them:
 
  broom -n ~/projects
 
