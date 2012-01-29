@@ -117,6 +117,12 @@ DRY_RUN=false
 DIRECTORY=.
 TOOLS=(${AVAILABLE_TOOLS[@]})
 
+# Load user configuration file if any.
+[[ -f $HOME/.broomrc ]] && {
+  debug "Loading ~/.broomrc"
+  . $HOME/.broomrc
+}
+
 # Parse and validate options.
 set -- `getopt -un$0 -l "help,version,verbose,quiet,dry-run,tools:" -o "hvqnt:" -- "$@"` || usage
 while [[ $# -gt 0 ]]; do
