@@ -27,7 +27,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make rake python ant mvn gradle git)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr git)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -48,6 +48,9 @@ mvn_keep_project()   { [[ -f $(dirname `dirname $1`)/pom.xml ]] && return 1 || r
 
 # Gradle
 gradle_project_marker() { echo "build.gradle"; }
+
+# Buildr
+buildr_project_marker() { echo "buildfile"; }
 
 # Git gc
 git_project_marker() { echo ".git/"; }
