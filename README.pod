@@ -24,8 +24,8 @@ them.
 =item B<-t> I<TOOLS>B<, --tools=>I<TOOLS>
 
 Comma-separated list of tools to run the cleanup for. The available tools
-are: I<make>, I<rake>, I<python>, I<ant>, I<mvn>, I<gradle>, I<buildr>
-and I<git>. By default, all tools are used.
+are: I<make>, I<rake>, I<python>, I<ant>, I<mvn>, I<gradle>, I<buildr>,
+I<sbt> and I<git>. By default, all tools are used.
 
 =item B<-v, --verbose>
 

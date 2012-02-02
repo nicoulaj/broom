@@ -27,7 +27,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr git)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt git)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -51,6 +51,10 @@ gradle_project_marker() { echo "build.gradle"; }
 
 # Buildr
 buildr_project_marker() { echo "buildfile"; }
+
+# SBT
+sbt_project_marker() { echo "{*.sbt,project/**/*.scala}"; }
+sbt_cwd()  { [[ $1 == *.sbt ]] && echo `dirname $1` || echo "${1%\/project\/*}"; }
 
 # Git gc
 git_project_marker() { echo ".git/"; }
@@ -114,7 +118,7 @@ getopt -h 2>&1 | grep -qe '-l' || {
 }
 
 # Set required bash options.
-shopt -s globstar
+shopt -s globstar extglob
 
 # Initialize default execution parameters.
 LOG_LEVEL=0
@@ -174,14 +178,15 @@ for tool in ${TOOLS[@]}; do
     warn "Warning: $tool is not supported, skipping."
   else
     info "Looking for $tool projects..."
-    for marker in $DIRECTORY/**/`${tool}_project_marker`; do
+    for marker in $(eval echo $DIRECTORY/**/`${tool}_project_marker`); do
       if [[ -e $marker ]]; then
         project_dir="`dirname $marker`"
         if type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null; then
           debug "Skipping project ${project_dir}."
         else
+          cwd="${project_dir}"; type ${tool}_cwd &> /dev/null && cwd="`${tool}_cwd $marker`"
           clean_args="clean"; type ${tool}_clean_args &> /dev/null && clean_args="`${tool}_clean_args $marker`"
-          clean_command="cd ${project_dir} && ${tool} ${clean_args}"
+          clean_command="cd ${cwd} && ${tool} ${clean_args}"
           if $DRY_RUN; then
             info $clean_command
           else
