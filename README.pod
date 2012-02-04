@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 broom - a disk cleaning utility for developers
@@ -8,9 +10,8 @@ I<broom> [option...] [directory]
 
 =head1 DESCRIPTION
 
-broom is a simple utility that helps developers regaining disk space. It
-recursively looks for projects inside a directory and cleans them by
-removing build artifacts, optimizing version control system files, etc.
+broom recursively looks for projects inside a directory and cleans them
+by removing build artifacts, optimizing version control system files, etc.
 
 =head1 OPTIONS
 
@@ -68,15 +69,39 @@ To perform cleanup only for git and make projects:
 
  broom -t git,make ~/projects
 
+=head1 FILES
+
+broom allows to define default execution parameters in the F<~/.broomrc>
+file. Here is an example of F<~/.broomrc> file:
+
+ # Use dry run mode by default.
+ DRY_RUN=true
+
+ # Only show warnings and errors.
+ LOG_LEVEL=0
+
+ # Run in projects directory.
+ DIRECTORY=~/projects
+ 
+ # Only look for some specific kind of projects.
+ TOOLS=(make python ant git)
+
+=begin html
+
 =head1 INSTALLING
 
-To download, build and install broom, follow the steps below:
+Get the last release <a href="https://github.com/nicoulaj/broom/downloads">here</a>, and follow the steps below to build and install it:
 
- wget --no-check-certificate https://github.com/downloads/nicoulaj/broom/broom-<VERSION>.tar.gz
- tar xzf broom-<VERSION>.tar.gz
- cd broom-<VERSION>
- make
- sudo make install
+<pre>
+tar xzf broom-*.tar.gz
+cd broom-*/
+make
+sudo make install
+</pre>
+
+=end html
+
+=begin man
 
 =head1 ISSUES
 
@@ -84,4 +109,6 @@ Please report issues at https://github.com/nicoulaj/broom/issues.
 
 =head1 AUTHOR
 
-Julien Nicoulaud E<lt>julien.nicoulaud@gmail.comE<gt>
+Julien Nicoulaud <julien.nicoulaud@gmail.com>
+
+=end man
