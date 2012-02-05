@@ -195,7 +195,7 @@ for tool in ${TOOLS[@]}; do
             info $clean_command
           else
             info "Cleaning $tool project `dirname $marker`... "
-            is_log_level 2 && eval $clean_command || eval $clean_command &> /dev/null
+            is_log_level 2 && (eval $clean_command) || (eval $clean_command &> /dev/null)
           fi
         fi
       fi
