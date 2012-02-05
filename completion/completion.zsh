@@ -28,7 +28,7 @@ _arguments \
   '*'{-v,--verbose}'[increase verbosity level]' \
   '*'{-q,--quiet}'[decrease verbosity level]' \
   {-n,--dry-run}'[do not actually perform actions]' \
-  {-t,--tools}'[comma-separated list of tools to use]: :_values -s ',' tool make rake python ant mvn gradle buildr sbt ninja git' \
+  {-t,--tools}'[comma-separated list of tools to use]: :_values -s ',' tool make rake python ant mvn gradle buildr sbt ninja git bundle' \
   '*: :_files -/'
 
 # vim: ft=zsh sw=2 ts=2 et

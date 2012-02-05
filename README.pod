@@ -26,7 +26,7 @@ them.
 
 Comma-separated list of tools to run the cleanup for. The available tools
 are: I<make>, I<rake>, I<python>, I<ant>, I<mvn>, I<gradle>, I<buildr>,
-I<sbt>, I<ninja> and I<git>. By default, all tools are used.
+I<sbt>, I<ninja>, I<git> and I<bundle>. By default, all tools are used.
 
 =item B<-v, --verbose>
 

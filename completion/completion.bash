@@ -37,7 +37,7 @@ _broom()
         prev=${COMP_WORDS[COMP_CWORD-1]}
         case "$prev" in
           -t|--tools)
-            COMPREPLY=( $(compgen -W "make rake python ant mvn gradle buildr sbt ninja git" $cur) )
+            COMPREPLY=( $(compgen -W "make rake python ant mvn gradle buildr sbt ninja git bundle" $cur) )
             ;;
           *)
             COMPREPLY=( $(compgen -W "-v --verbose -q --quiet -n --dry-run -t --tools" -- $cur ) )
