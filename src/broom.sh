@@ -171,10 +171,10 @@ done
 
 # Debug logging.
 debug "Running with parameters:"
-debug " * dry run: $DRY_RUN"
-debug " * log level: $LOG_LEVEL"
-debug " * directory: $DIRECTORY"
-debug " * tools: ${TOOLS[@]}"
+debug " - dry run: $DRY_RUN"
+debug " - log level: $LOG_LEVEL"
+debug " - directory: $DIRECTORY"
+debug " - tools: ${TOOLS[@]}"
 
 # Perform cleaning.
 trap "exit" INT TERM EXIT
