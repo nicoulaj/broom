@@ -27,7 +27,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja git)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja git bundle)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -63,6 +63,9 @@ ninja_clean_args()  { echo "-t clean"; }
 # Git gc
 git_project_marker() { echo ".git/"; }
 git_clean_args()  { echo "gc"; }
+
+# Bundler
+bundle_project_marker() { echo "Gemfile"; }
 
 
 # ----------------------------------------------------------------------
