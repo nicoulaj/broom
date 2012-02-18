@@ -107,13 +107,13 @@ log() {
   if [[ $level -lt 0 ]]; then
     echo "$@" >&2
   else
-    [[ $LOG_LEVEL -ge $level ]] && echo $@
+    [[ $LOG_LEVEL -ge $level ]] && echo "$@"
   fi
 }
-info() { log 0 $@; }
-debug() { log 1 $@; }
-error() { log -2 $@; }
-warn() { log -1 $@; }
+error() { log -2 "$@"; }
+warn() { log -1 "$@"; }
+info() { log 0 "$@"; }
+debug() { log 1 "$@"; }
 is_log_level() { [[ $LOG_LEVEL -ge $1 ]]; }
 
 # Check for bash requirements.
@@ -188,23 +188,26 @@ for tool in ${TOOLS[@]}; do
   elif ! type ${tool}_project_marker &> /dev/null; then
     warn "Warning: $tool is not supported, skipping."
   else
-    info "Looking for $tool projects..."
+    debug "Looking for $tool projects..."
     for marker in $(eval echo $DIRECTORY/**/`${tool}_project_marker`); do
       if [[ -e $marker ]]; then
-        project_dir="`dirname $marker`"
-        if type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null; then
-          debug "Skipping project ${project_dir}."
-        else
-          cwd="${project_dir}"; type ${tool}_cwd &> /dev/null && cwd="`${tool}_cwd $marker`"
-          clean_args="clean"; type ${tool}_clean_args &> /dev/null && clean_args="`${tool}_clean_args $marker`"
-          clean_command="cd ${cwd} && ${tool} ${clean_args}"
-          if $DRY_RUN; then
-            info $clean_command
+        cwd="`dirname $marker`"; type ${tool}_cwd &> /dev/null && cwd="`${tool}_cwd $marker`"
+        clean_args="clean"; type ${tool}_clean_args &> /dev/null && clean_args="`${tool}_clean_args $marker`"
+        clean_command="cd ${cwd} && ${tool} ${clean_args}"
+        info -n "${clean_command} "
+		if $DRY_RUN || (type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null); then
+		  info "[SKIPPED]"
+		else
+          if is_log_level 2; then
+            info
+            while read; do
+              info "[${tool}] ${REPLY}"
+		    done < <(eval $clean_command 2>&1)
           else
-            info "Cleaning $tool project `dirname $marker`... "
-            is_log_level 2 && (eval $clean_command) || (eval $clean_command &> /dev/null)
+            (eval $clean_command &> /dev/null)
+            (( $? == 0 )) && info "[OK]" || info "[FAIL]"
           fi
-        fi
+		fi
       fi
     done
   fi
