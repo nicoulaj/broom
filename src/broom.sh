@@ -48,6 +48,7 @@ mvn_keep_project()   { [[ -f $(dirname `dirname $1`)/pom.xml ]] && return 1 || r
 
 # Gradle
 gradle_project_marker() { echo "build.gradle"; }
+gradle_clean_args()  { echo "--daemon clean"; }
 
 # Buildr
 buildr_project_marker() { echo "buildfile"; }
