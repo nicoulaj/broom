@@ -79,25 +79,25 @@ bundle_project_marker() { echo "Gemfile"; }
 
 # Define usage function.
 usage() {
-cat << EOF
+  cat << EOF
 usage: $0 [option...] [directory]
 
 A disk cleaning utility for developers.
 
 OPTIONS:
-   -h,--help      Show this message and exit.
-   --version      Show version number and exit.
-   -v,--verbose   Increase verbosity level.
-   -q,--quiet)    Decrease verbosity level.
-   -n,--dry-run)  Do not actually perform actions.
-   -t,--tools)    Comma-separated list of tools to use.
-                  Available tools are: ${AVAILABLE_TOOLS[@]}.
+  -h,--help      Show this message and exit.
+  --version      Show version number and exit.
+  -v,--verbose   Increase verbosity level.
+  -q,--quiet)    Decrease verbosity level.
+  -n,--dry-run)  Do not actually perform actions.
+  -t,--tools)    Comma-separated list of tools to use.
+                 Available tools are: ${AVAILABLE_TOOLS[@]}.
 EOF
 }
 
 # Define version function.
 version() {
-cat << EOF
+  cat << EOF
 $0 $VERSION
 EOF
 }
@@ -196,19 +196,19 @@ for tool in ${TOOLS[@]}; do
         clean_args="clean"; type ${tool}_clean_args &> /dev/null && clean_args="`${tool}_clean_args $marker`"
         clean_command="cd ${cwd} && ${tool} ${clean_args}"
         info -n "${clean_command} "
-		if $DRY_RUN || (type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null); then
-		  info "[SKIPPED]"
-		else
+        if $DRY_RUN || (type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null); then
+          info "[SKIPPED]"
+        else
           if is_log_level 2; then
             info
             while read; do
               info "[${tool}] ${REPLY}"
-		    done < <(eval $clean_command 2>&1)
+            done < <(eval $clean_command 2>&1)
           else
             (eval $clean_command &> /dev/null)
             (( $? == 0 )) && info "[OK]" || info "[FAIL]"
           fi
-		fi
+        fi
       fi
     done
   fi
