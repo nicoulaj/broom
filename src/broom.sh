@@ -27,7 +27,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons git bundle)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons waf git bundle)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -64,6 +64,9 @@ ninja_clean_args()  { echo "-t clean"; }
 # SCons
 scons_project_marker() { echo "SConstruct"; }
 scons_clean_args()  { echo "-c"; }
+
+# Waf
+waf_project_marker() { echo "wscript"; }
 
 # Git gc
 git_project_marker() { echo ".git/"; }
