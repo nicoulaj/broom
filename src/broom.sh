@@ -94,9 +94,10 @@ OPTIONS:
   -h,--help      Show this message and exit.
   --version      Show version number and exit.
   -v,--verbose   Increase verbosity level.
-  -q,--quiet)    Decrease verbosity level.
-  -n,--dry-run)  Do not actually perform actions.
-  -t,--tools)    Comma-separated list of tools to use.
+  -q,--quiet     Decrease verbosity level.
+  -n,--dry-run   Do not actually perform actions.
+  -s,--stats     Show space gained.
+  -t,--tools     Comma-separated list of tools to use.
                  Available tools are: ${AVAILABLE_TOOLS[@]}.
 EOF
 }
@@ -141,6 +142,7 @@ shopt -s globstar extglob
 # Initialize default execution parameters.
 LOG_LEVEL=0
 DRY_RUN=false
+STATS=false
 DIRECTORY=.
 TOOLS=(${AVAILABLE_TOOLS[@]})
 
@@ -151,7 +153,7 @@ TOOLS=(${AVAILABLE_TOOLS[@]})
 }
 
 # Parse and validate options.
-set -- `getopt -un$0 -l "help,version,verbose,quiet,dry-run,tools:" -o "hvqnt:" -- "$@"` || usage
+set -- `getopt -un$0 -l "help,version,verbose,quiet,dry-run,stats,tools:" -o "hvqnst:" -- "$@"` || usage
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -h|--help)    usage; exit 0 ;;
@@ -159,6 +161,7 @@ while [[ $# -gt 0 ]]; do
     -v|--verbose) let LOG_LEVEL++ ;;
     -q|--quiet)   let LOG_LEVEL-- ;;
     -n|--dry-run) DRY_RUN=true ;;
+    -s|--stats)   STATS=true ;;
     -t|--tools)   TOOLS=(${2//,/ }); shift ;;
     --)           shift; break ;;
     -*)           usage; exit 1 ;;
@@ -183,12 +186,14 @@ done
 # Debug logging.
 debug "Running with parameters:"
 debug " - dry run: $DRY_RUN"
+debug " - stats: $STATS"
 debug " - log level: $LOG_LEVEL"
 debug " - directory: $DIRECTORY"
 debug " - tools: ${TOOLS[@]}"
 
 # Perform cleaning.
 trap "exit" INT TERM EXIT
+$STATS && gained=0
 for tool in ${TOOLS[@]}; do
   if ! type $tool &> /dev/null; then
     warn "Warning: $tool does not seem to be available in PATH, skipping $tool projects cleaning."
@@ -205,6 +210,7 @@ for tool in ${TOOLS[@]}; do
         if $DRY_RUN || (type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null); then
           info "[SKIPPED]"
         else
+          $STATS && before=($(du -bs "${cwd}")) && before=${before[0]}
           if is_log_level 2; then
             info
             while read; do
@@ -214,10 +220,18 @@ for tool in ${TOOLS[@]}; do
             (eval $clean_command &> /dev/null)
             (( $? == 0 )) && info "[OK]" || info "[FAIL]"
           fi
+          $STATS && after=($(du -bs "${cwd}")) && after=${after[0]} && gained=$(( gained + before - after ))
         fi
       fi
     done
   fi
 done
+if $STATS; then
+  if hash numfmt 2>/dev/null; then
+    info "$(numfmt --to=iec --suffix=B ${gained}) gained"
+  else
+    info "${gained} bytes gained"
+  fi
+fi
 
 # vim:set ts=2 sw=2 et:

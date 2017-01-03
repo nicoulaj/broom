@@ -33,6 +33,10 @@ default, all tools are used.
 
 Be more verbose. Pass this option several times to see debug info.
 
+=item B<-s, --stats>
+
+Print disk space gained.
+
 =item B<-q, --quiet>
 
 Be less verbose. Pass this option several times to remove all output.
