@@ -21,7 +21,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -71,6 +71,10 @@ git_clean_args()  { echo "gc"; }
 
 # Bundler
 bundle_project_marker() { echo "Gemfile"; }
+
+# Vagrant
+vagrant_project_marker() { echo "Vagrantfile"; }
+vagrant_clean_args()  { echo "destroy -f"; }
 
 
 # ----------------------------------------------------------------------
