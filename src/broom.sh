@@ -74,8 +74,8 @@ bundle_project_marker() { echo "Gemfile"; }
 
 # Vagrant
 vagrant_project_marker() { echo "Vagrantfile"; }
-vagrant_clean_args()  { echo "destroy -f"; }
-
+vagrant_clean_args() { echo "destroy -f"; }
+vagrant_needs_confirmation() { :; }
 
 # ----------------------------------------------------------------------
 # Main
@@ -94,6 +94,9 @@ OPTIONS:
   -v,--verbose   Increase verbosity level.
   -q,--quiet     Decrease verbosity level.
   -n,--dry-run   Do not actually perform actions.
+  --noconfirm    Do not ask for confirmation before performing actions
+                 that may result in potential data loss (eg: destroying
+                 Vagrant boxes). 
   -s,--stats     Show space gained.
   -t,--tools     Comma-separated list of tools to use.
                  Available tools are: ${AVAILABLE_TOOLS[@]}.
@@ -142,6 +145,7 @@ shopt -s globstar extglob
 LOG_LEVEL=0
 DRY_RUN=false
 STATS=false
+CONFIRM_DESTRUCTIVE_ACTION=true
 DIRECTORY=.
 TOOLS=(${AVAILABLE_TOOLS[@]})
 
@@ -152,7 +156,7 @@ TOOLS=(${AVAILABLE_TOOLS[@]})
 }
 
 # Parse and validate options.
-set -- `getopt -un$0 -l "help,version,verbose,quiet,dry-run,stats,tools:" -o "hvqnst:" -- "$@"` || usage
+set -- `getopt -un$0 -l "help,version,verbose,quiet,dry-run,stats,noconfirm,tools:" -o "hvqnst:" -- "$@"` || usage
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -h|--help)    usage; exit 0 ;;
@@ -161,6 +165,7 @@ while [[ $# -gt 0 ]]; do
     -q|--quiet)   let LOG_LEVEL-- ;;
     -n|--dry-run) DRY_RUN=true ;;
     -s|--stats)   STATS=true ;;
+    --noconfirm)  CONFIRM_DESTRUCTIVE_ACTION=false ;;
     -t|--tools)   TOOLS=(${2//,/ }); shift ;;
     --)           shift; break ;;
     -*)           usage; exit 1 ;;
@@ -186,6 +191,7 @@ done
 debug "Running with parameters:"
 debug " - dry run: $DRY_RUN"
 debug " - stats: $STATS"
+debug " - confirm actions resulting in potential data loss: $CONFIRM_DESTRUCTIVE_ACTION"
 debug " - log level: $LOG_LEVEL"
 debug " - directory: $DIRECTORY"
 debug " - tools: ${TOOLS[@]}"
@@ -205,21 +211,30 @@ for tool in ${TOOLS[@]}; do
         cwd="`dirname $marker`"; type ${tool}_cwd &> /dev/null && cwd="`${tool}_cwd $marker`"
         clean_args="clean"; type ${tool}_clean_args &> /dev/null && clean_args="`${tool}_clean_args $marker`"
         clean_command="cd ${cwd} && ${tool} ${clean_args}"
-        info -n "${clean_command} "
+        info -n "${clean_command}"
         if $DRY_RUN || (type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null); then
-          info "[SKIPPED]"
+          info " [SKIPPED]"
         else
-          $STATS && before=($(du -bs "${cwd}")) && before=${before[0]}
-          if is_log_level 2; then
-            info
-            while read; do
-              info "[${tool}] ${REPLY}"
-            done < <(eval $clean_command 2>&1)
+          doit=false
+          if $CONFIRM_DESTRUCTIVE_ACTION && type ${tool}_needs_confirmation &> /dev/null; then
+            read -p " ? [y/n] " -n 1 -r
+            [[ $REPLY =~ ^[Yy]$ ]] && doit=true || info " [SKIPPED]"
           else
-            (eval $clean_command &> /dev/null)
-            (( $? == 0 )) && info "[OK]" || info "[FAIL]"
+            doit=true
           fi
-          $STATS && after=($(du -bs "${cwd}")) && after=${after[0]} && gained=$(( gained + before - after ))
+          if $doit; then
+            $STATS && before=($(du -bs "${cwd}")) && before=${before[0]}
+            if is_log_level 2; then
+              info
+              while read; do
+                info "[${tool}] ${REPLY}"
+              done < <(eval $clean_command 2>&1)
+            else
+              (eval $clean_command &> /dev/null)
+              (( $? == 0 )) && info " [OK]" || info " [FAIL]"
+            fi
+            $STATS && after=($(du -bs "${cwd}")) && after=${after[0]} && gained=$(( gained + before - after ))
+          fi
         fi
       fi
     done

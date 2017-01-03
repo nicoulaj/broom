@@ -38,6 +38,11 @@ Be more verbose. Pass this option several times to see debug info.
 
 Print disk space gained.
 
+=item B<-s, --noconfirm>
+
+Do not ask for confirmation before performing actions that may result in
+potential data loss (eg: destroying Vagrant boxes). 
+
 =item B<-q, --quiet>
 
 Be less verbose. Pass this option several times to remove all output.
