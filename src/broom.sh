@@ -115,15 +115,24 @@ EOF
 log() {
   level=$1; shift
   if [[ $level -lt 0 ]]; then
-    echo "$@" >&2
-  else
-    [[ $LOG_LEVEL -ge $level ]] && echo "$@"
+    if [[ $level -lt -1 ]]; then
+      echo "$(tput setaf 1)$(tput bold)$@$(tput sgr0)" >&2
+    else
+      echo "$(tput setaf 3)$(tput bold)$@$(tput sgr0)" >&2
+    fi
+  elif [[ $LOG_LEVEL -ge $level ]]; then
+    if [[ $level -ge 1 ]]; then
+      echo "$(tput dim)$@$(tput sgr0)"
+    else
+      echo "$@"
+    fi
   fi
 }
 error() { log -2 "$@"; }
 warn() { log -1 "$@"; }
 info() { log 0 "$@"; }
 debug() { log 1 "$@"; }
+trace() { log 2 "$@"; }
 is_log_level() { [[ $LOG_LEVEL -ge $1 ]]; }
 
 # Check for bash requirements.
@@ -213,12 +222,12 @@ for tool in ${TOOLS[@]}; do
         clean_command="cd ${cwd} && ${tool} ${clean_args}"
         info -n "${clean_command}"
         if $DRY_RUN || (type ${tool}_keep_project &> /dev/null && ! ${tool}_keep_project $marker &> /dev/null); then
-          info " [SKIPPED]"
+          info " $(tput setaf 4)[SKIPPED]$(tput sgr0)"
         else
           doit=false
           if $CONFIRM_DESTRUCTIVE_ACTION && type ${tool}_needs_confirmation &> /dev/null; then
             read -p " ? [y/n] " -n 1 -r
-            [[ $REPLY =~ ^[Yy]$ ]] && doit=true || info " [SKIPPED]"
+            [[ $REPLY =~ ^[Yy]$ ]] && doit=true || info " $(tput setaf 4)[SKIPPED]$(tput sgr0)"
           else
             doit=true
           fi
@@ -227,11 +236,11 @@ for tool in ${TOOLS[@]}; do
             if is_log_level 2; then
               info
               while read; do
-                info "[${tool}] ${REPLY}"
+                trace "  [${tool}] ${REPLY}"
               done < <(eval $clean_command 2>&1)
             else
               (eval $clean_command &> /dev/null)
-              (( $? == 0 )) && info " [OK]" || info " [FAIL]"
+              (( $? == 0 )) && info " $(tput setaf 2)[OK]$(tput sgr0)" || info " $(tput setaf 1)[FAIL]$(tput sgr0)"
             fi
             $STATS && after=($(du -bs "${cwd}")) && after=${after[0]} && gained=$(( gained + before - after ))
           fi
