@@ -93,6 +93,7 @@ OPTIONS:
   -s,--stats     Show space gained.
   -t,--tools     Comma-separated list of tools to use.
                  Available tools are: ${AVAILABLE_TOOLS[@]}.
+                 By default, all tools are used.
 EOF
 }
 

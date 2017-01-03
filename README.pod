@@ -11,7 +11,8 @@ I<broom> [option...] [directory]
 =head1 DESCRIPTION
 
 broom recursively looks for projects inside a directory and cleans them
-by removing build artifacts, optimizing version control system files, etc.
+by removing build artifacts (eg: by invoking "make clean"), optimizing
+version control system files (eg: by invoking "git gc"), etc.
 
 =head1 OPTIONS
 
@@ -85,6 +86,9 @@ file. Here is an example of F<~/.broomrc> file:
  # Only show warnings and errors.
  LOG_LEVEL=0
 
+ # Show statistics.
+ STATS=true
+
  # Run in projects directory.
  DIRECTORY=~/projects
  
@@ -95,11 +99,36 @@ file. Here is an example of F<~/.broomrc> file:
 
 =head1 INSTALLING
 
-Get the last release <a href="https://github.com/nicoulaj/broom/downloads">here</a>, and follow the steps below to build and install it:
+=head2 Using packages
+
+<table>
+  <tr>
+    <th>System</th>
+    <th>Installation instructions</th> 
+  </tr>
+  <tr>
+    <td>Debian / Ubuntu</td>
+    <td><a href="https://software.opensuse.org/download.html?project=home%3Anicoulaj%3Abroom&package=broom">broom repository</a></td>
+  </tr>
+  <tr>
+    <td>Fedora / CentOS / RHEL / Scientific Linux</td>
+    <td><a href="https://software.opensuse.org/download.html?project=home%3Anicoulaj%3Abroom&package=broom">broom repository</a></td>
+  </tr>
+  <tr>
+    <td>OpenSUSE / SLE</td>
+    <td><a href="https://software.opensuse.org/download.html?project=home%3Anicoulaj%3Abroom&package=broom">broom repository</a></td>
+  </tr>
+  <tr>
+    <td>Arch Linux</td>
+    <td><a href="https://aur.archlinux.org/packages/broom">AUR</a></td>
+  </tr>
+</table>
+
+=head2 Building from sources
 
 <pre>
-tar xzf broom-*.tar.gz
-cd broom-*/
+git clone https://github.com/nicoulaj/broom.git
+cd broom
 make
 sudo make install
 </pre>
