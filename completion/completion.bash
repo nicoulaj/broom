@@ -26,7 +26,7 @@ _broom()
 {
   cur=${COMP_WORDS[COMP_CWORD]}
   if [ $COMP_CWORD -eq 1 ]; then
-    COMPREPLY=( $( compgen -W "-h --help --version -v --verbose -q --quiet -n --dry-run -t --tools" -- $cur ) )
+    COMPREPLY=( $( compgen -W "-h --help --version -v --verbose -q --quiet -n --dry-run -t --tools -s --stats" -- $cur ) )
   else
     first=${COMP_WORDS[1]}
     case "$first" in
@@ -40,7 +40,7 @@ _broom()
             COMPREPLY=( $(compgen -W "make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant" $cur) )
             ;;
           *)
-            COMPREPLY=( $(compgen -W "-v --verbose -q --quiet -n --dry-run -t --tools" -- $cur ) )
+            COMPREPLY=( $(compgen -W "-v --verbose -q --quiet -n --dry-run -t --tools -s --stats" -- $cur ) )
             ;;
         esac
         ;;
