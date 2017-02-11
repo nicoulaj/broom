@@ -30,7 +30,7 @@ _arguments \
   {-n,--dry-run}'[do not actually perform actions]' \
   {-t,--tools}'[comma-separated list of tools to use]: :_values -s ',' tool make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant makepkg' \
   {-s,--stats}'[print disk space gained]' \
-  {--noconfirm}'[do not ask for confirmation before performing actions that may result in potential data loss]' \
+  '--noconfirm[do not ask for confirmation before performing actions that may result in potential data loss]' \
   '*: :_files -/'
 
 # vim: ft=zsh sw=2 ts=2 et
