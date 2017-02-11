@@ -6,7 +6,7 @@ broom - a disk cleaning utility for developers
 
 =begin html
 
-<a href="https://asciinema.org/a/102852" target="_blank"><img src="http://i.imgur.com/VoqGIzo.png"/></a>
+<a href="https://asciinema.org/a/102852" target="_blank"><img src="http://i.imgur.com/VoqGIzo.png" width="717"/></a>
 
 =end html
 
