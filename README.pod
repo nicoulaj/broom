@@ -33,8 +33,8 @@ them.
 
 Comma-separated list of tools to run the cleanup for. The available tools
 are: I<make>, I<rake>, I<python>, I<ant>, I<mvn>, I<gradle>, I<buildr>,
-I<sbt>, I<ninja>, I<scons>, I<waf>, I<rant>, I<git>, I<bundle> and I<vagrant>. By
-default, all tools are used.
+I<sbt>, I<ninja>, I<scons>, I<waf>, I<rant>, I<git>, I<bundle>, I<vagrant>
+and I<makepkg>. By default, all tools are used.
 
 =item B<-v, --verbose>
 

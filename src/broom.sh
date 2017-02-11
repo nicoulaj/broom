@@ -21,7 +21,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant makepkg)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -76,6 +76,11 @@ bundle_project_marker() { echo "Gemfile"; }
 vagrant_project_marker() { echo "Vagrantfile"; }
 vagrant_clean_args() { echo "destroy -f"; }
 vagrant_needs_confirmation() { :; }
+
+# Makepkg
+makepkg_project_marker() { echo "PKGBUILD"; }
+makepkg_clean_args() { echo "-cdeof"; }
+
 
 # ----------------------------------------------------------------------
 # Main
