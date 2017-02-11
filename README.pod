@@ -4,6 +4,12 @@
 
 broom - a disk cleaning utility for developers
 
+=begin html
+
+<a href="https://asciinema.org/a/102845" target="_blank"><img src="http://i.imgur.com/nvqFApH.png"/></a>
+
+=end html
+
 =head1 SYNOPSIS
 
 I<broom> [option...] [directory]
