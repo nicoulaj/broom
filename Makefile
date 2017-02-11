@@ -1,4 +1,4 @@
-VERSION = $(shell git describe --tags)
+VERSION = $(shell git describe --tags || echo "unknown version")
 PREFIX = /usr
 
 all: broom doc
