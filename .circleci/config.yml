@@ -11,7 +11,7 @@ jobs:
           name: Make source distribution
           command: make dist
       - store_artifacts:
-          path: dist
+          path: dist/*.tar.gz
 
   package-centos7.4:
     machine: true
@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           name: Install packagecore
-          command: sudo pip install packagecore
+          command: sudo pip3 install packagecore
       - run:
           name: Build packages
           command: make package DISTRIB=centos7.4
@@ -32,7 +32,7 @@ jobs:
       - checkout
       - run:
           name: Install packagecore
-          command: sudo pip install packagecore
+          command: sudo pip3 install packagecore
       - run:
           name: Build packages
           command: make package DISTRIB=ubuntu18.04
