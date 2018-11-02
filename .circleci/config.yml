@@ -1,7 +1,19 @@
 version: 2
 
 jobs:
-  build:
+
+  dist:
+      docker:
+        - image: circleci/python:3
+      steps:
+        - checkout
+        - run:
+            name: Make source distribution
+            command: make dist
+        - store_artifacts:
+            path: dist
+
+  package-centos7.4:
       docker:
         - image: circleci/python:3
       steps:
@@ -12,7 +24,22 @@ jobs:
             command: sudo pip install packagecore
         - run:
             name: Build packages
-            command: make packages
+            command: make package DISTRIB=centos7.4
+        - store_artifacts:
+            path: dist
+
+  package-ubuntu18.04:
+      docker:
+        - image: circleci/python:3
+      steps:
+        - setup_remote_docker
+        - checkout
+        - run:
+            name: Install packagecore
+            command: sudo pip install packagecore
+        - run:
+            name: Build packages
+            command: make package DISTRIB=ubuntu18.04
         - store_artifacts:
             path: dist
 
@@ -20,4 +47,6 @@ workflows:
   version: 2
   broom:
     jobs:
-      - build
+      - dist
+      - package-centos7.4
+      - package-ubuntu18.04

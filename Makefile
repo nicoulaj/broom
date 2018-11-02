@@ -36,5 +36,5 @@ uninstall:
 	${RM} ${DESTDIR}/etc/bash_completion.d/broom
 	${RM} ${DESTDIR}/usr/share/zsh/site-functions/_broom
 
-packages:
-	packagecore -o dist ${VERSION}
+package:
+	packagecore -o dist ${VERSION} -p ${DISTRIB}
