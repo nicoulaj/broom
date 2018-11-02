@@ -1,0 +1,56 @@
+name: broom
+maintainer: Julien Nicoulaud <julien.nicoulaud@gmail.com>
+license: GPL3
+summary: A disk cleaning utility for developers.
+homepage: https://github.com/nicoulaj/broom
+
+commands:
+  compile: |
+    make
+  install: |
+    make install DESTDIR="${BP_DESTDIR}"
+  testinstall: |
+    /usr/bin/broom --version
+    /usr/bin/broom --help
+
+packages:
+  amazonlinux2017.03: &dependencies-default
+    builddeps:
+      - git
+      - perl
+      - make
+    deps:
+      - bash
+      - ncurses
+  archlinux: *dependencies-default
+  centos6.9: *dependencies-default
+  centos7.0: *dependencies-default
+  centos7.1: *dependencies-default
+  centos7.2: *dependencies-default
+  centos7.3: *dependencies-default
+  centos7.4: *dependencies-default
+  fedora22: *dependencies-default
+  fedora23: *dependencies-default
+  fedora24: *dependencies-default
+  fedora25: *dependencies-default
+  fedora26: *dependencies-default
+  fedora27: *dependencies-default
+  fedora28: *dependencies-default
+  opensuse42.1: *dependencies-default
+  opensuse42.2: *dependencies-default
+  opensuse42.3: *dependencies-default
+  debian8: &dependencies-deb
+    builddeps:
+      - git
+      - perl
+      - make
+    deps:
+      - bash
+      - ncurses-bin
+  debian9: *dependencies-deb
+  ubuntu14.04: *dependencies-deb
+  ubuntu16.04: *dependencies-deb
+  ubuntu16.10: *dependencies-deb
+  ubuntu17.04: *dependencies-deb
+  ubuntu17.10: *dependencies-deb
+  ubuntu18.04: *dependencies-deb
