@@ -1,0 +1,47 @@
+# broom - a disk cleaning utility for developers
+# Copyright (c) 2011-2018 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+sudo: required
+
+language: python
+python: 3.6
+
+services:
+  - docker
+
+cache: pip
+
+env:
+  - DISTRIB=centos7.4
+  - DISTRIB=ubuntu18.04
+
+install:
+  - pip install packagecore
+
+script:
+  - make package
+
+notifications:
+  email: false
+  irc:
+    channels:
+    - "chat.freenode.net#nicoulaj"
+    on_success: never
+    on_failure: change
+    on_start: never
+    use_notice: true
+    template:
+    - "%{repository}/%{branch}#%{build_number}: %{message} | changes : %{compare_url} | build : %{build_url}"
