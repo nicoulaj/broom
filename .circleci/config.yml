@@ -1,0 +1,22 @@
+version: 2
+
+jobs:
+  build:
+      docker:
+        - image: circleci/python:3
+      steps:
+        - checkout
+        - run:
+            name: Install packagecore
+            command: sudo pip install packagecore
+        - run:
+            name: Build packages
+            command: make packages
+        - store_artifacts:
+            path: dist
+
+workflows:
+  version: 2
+  broom:
+    jobs:
+      - build
