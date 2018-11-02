@@ -1,7 +1,7 @@
 #compdef broom
 # broom - a disk cleaning utility for developers
-# Copyright (c) 2011-2012 Julien Nicoulaud <julien.nicoulaud@gmail.com>
-# 
+# Copyright (c) 2011-2018 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,7 +28,7 @@ _arguments \
   '*'{-v,--verbose}'[increase verbosity level]' \
   '*'{-q,--quiet}'[decrease verbosity level]' \
   {-n,--dry-run}'[do not actually perform actions]' \
-  {-t,--tools}'[comma-separated list of tools to use]: :_values -s ',' tool make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant makepkg' \
+  {-t,--tools}'[comma-separated list of tools to use]: :_values -s ',' tool make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant makepkg cargo' \
   {-s,--stats}'[print disk space gained]' \
   '--noconfirm[do not ask for confirmation before performing actions that may result in potential data loss]' \
   '*: :_files -/'

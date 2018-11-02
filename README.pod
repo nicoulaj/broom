@@ -34,7 +34,7 @@ them.
 Comma-separated list of tools to run the cleanup for. The available tools
 are: I<make>, I<rake>, I<python>, I<ant>, I<mvn>, I<gradle>, I<buildr>,
 I<sbt>, I<ninja>, I<scons>, I<waf>, I<rant>, I<git>, I<bundle>, I<vagrant>
-and I<makepkg>. By default, all tools are used.
+, I<cargo> and I<makepkg>. By default, all tools are used.
 
 =item B<-v, --verbose>
 
@@ -47,7 +47,7 @@ Print disk space gained.
 =item B<--noconfirm>
 
 Do not ask for confirmation before performing actions that may result in
-potential data loss (eg: destroying Vagrant boxes). 
+potential data loss (eg: destroying Vagrant boxes).
 
 =item B<-q, --quiet>
 
@@ -102,7 +102,7 @@ file. Here is an example of F<~/.broomrc> file:
 
  # Run in projects directory.
  DIRECTORY=~/projects
- 
+
  # Only look for some specific kind of projects.
  TOOLS=(make python ant git)
 
@@ -115,7 +115,7 @@ file. Here is an example of F<~/.broomrc> file:
 <table>
   <tr>
     <th>System</th>
-    <th>Installation instructions</th> 
+    <th>Installation instructions</th>
   </tr>
   <tr>
     <td>Debian / Ubuntu</td>

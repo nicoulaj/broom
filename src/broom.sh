@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # broom - a disk cleaning utility for developers
-# Copyright (c) 2011-2017 Julien Nicoulaud <julien.nicoulaud@gmail.com>
-# 
+# Copyright (c) 2011-2018 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -21,7 +21,7 @@ VERSION=dev
 # Tools definitions
 # ----------------------------------------------------------------------
 
-AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant makepkg)
+AVAILABLE_TOOLS=(make rake python ant mvn gradle buildr sbt ninja scons waf rant git bundle vagrant makepkg cargo)
 
 # Make
 make_project_marker() { echo "Makefile"; }
@@ -81,6 +81,9 @@ vagrant_needs_confirmation() { :; }
 makepkg_project_marker() { echo "PKGBUILD"; }
 makepkg_clean_args() { echo "-cdeof"; }
 
+# Rust
+cargo_project_marker() { echo "Cargo.toml"; }
+
 
 # ----------------------------------------------------------------------
 # Main
@@ -101,7 +104,7 @@ OPTIONS:
   -n,--dry-run   Do not actually perform actions.
   --noconfirm    Do not ask for confirmation before performing actions
                  that may result in potential data loss (eg: destroying
-                 Vagrant boxes). 
+                 Vagrant boxes).
   -s,--stats     Show space gained.
   -t,--tools     Comma-separated list of tools to use.
                  Available tools are: ${AVAILABLE_TOOLS[@]}.
