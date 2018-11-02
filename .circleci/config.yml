@@ -5,6 +5,7 @@ jobs:
       docker:
         - image: circleci/python:3
       steps:
+        - setup_remote_docker
         - checkout
         - run:
             name: Install packagecore
