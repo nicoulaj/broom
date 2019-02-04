@@ -150,10 +150,14 @@ is_log_level() { [[ $LOG_LEVEL -ge $1 ]]; }
 }
 
 # Check for getopt requirements.
-getopt -h 2>&1 | grep -qe '-l' || {
+if getopt -h 2>&1 | grep -qe '-l'; then
+  GETOPT=getopt
+elif /compat/linux/bin/getopt -h 2>&1 | grep -qe '-l'; then
+  GETOPT=/compat/linux/bin/getopt
+else
   error "This script requires GNU implementation of getopt, exiting."
   exit 1
-}
+fi
 
 # Set required bash options.
 shopt -s globstar extglob
@@ -173,7 +177,7 @@ TOOLS=(${AVAILABLE_TOOLS[@]})
 }
 
 # Parse and validate options.
-set -- `getopt -un$0 -l "help,version,verbose,quiet,dry-run,stats,noconfirm,tools:" -o "hvqnst:" -- "$@"` || usage
+set -- `$GETOPT -un$0 -l "help,version,verbose,quiet,dry-run,stats,noconfirm,tools:" -o "hvqnst:" -- "$@"` || usage
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -h|--help)    usage; exit 0 ;;
